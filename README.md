@@ -1,5 +1,7 @@
 ## This App Completely Created By Claude
 
+Setup prisma and db then seed with package json commands to run this application.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
