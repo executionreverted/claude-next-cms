@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
@@ -19,12 +19,13 @@ interface User {
 }
 
 interface Params {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default function BlogForm({ params }: Params) {
+export default function BlogForm(props: Params) {
+  const params = use(props.params);
   const router = useRouter();
   const { data: session } = useSession();
   const isNewPost = params.id === 'new';
@@ -172,13 +173,11 @@ export default function BlogForm({ params }: Params) {
           </Link>
         </div>
       </div>
-
       {error && (
         <div className="mb-4 rounded-md bg-red-50 p-4 text-red-600">
           {error}
         </div>
       )}
-
       {!preview ? (
         <form onSubmit={handleSubmit} className="space-y-6 rounded-lg bg-white p-6 shadow-md">
           <div>

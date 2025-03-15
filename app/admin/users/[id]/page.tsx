@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -14,12 +14,13 @@ interface UserFormData {
 }
 
 interface Params {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default function UserForm({ params }: Params) {
+export default function UserForm(props: Params) {
+  const params = use(props.params);
   const router = useRouter();
   const isNewUser = params.id === 'new';
   const [isLoading, setIsLoading] = useState(false);

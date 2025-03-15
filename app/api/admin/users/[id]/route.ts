@@ -4,13 +4,14 @@ import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
 
 interface Params {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 // GET - Get a specific user by ID (admin only)
-export async function GET(request: NextRequest, { params }: Params) {
+export async function GET(request: NextRequest, props: Params) {
+  const params = await props.params;
   try {
     const token = await getToken({ req: request });
 
@@ -56,7 +57,8 @@ export async function GET(request: NextRequest, { params }: Params) {
 }
 
 // PATCH - Update a user (admin only)
-export async function PATCH(request: NextRequest, { params }: Params) {
+export async function PATCH(request: NextRequest, props: Params) {
+  const params = await props.params;
   try {
     const token = await getToken({ req: request });
 
@@ -124,7 +126,8 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 }
 
 // DELETE - Delete a user (admin only)
-export async function DELETE(request: NextRequest, { params }: Params) {
+export async function DELETE(request: NextRequest, props: Params) {
+  const params = await props.params;
   try {
     const token = await getToken({ req: request });
 

@@ -3,13 +3,14 @@ import { getToken } from "next-auth/jwt";
 import { prisma } from "@/lib/prisma";
 
 interface Params {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 // GET - Get a specific blog post by ID (admin only)
-export async function GET(request: NextRequest, { params }: Params) {
+export async function GET(request: NextRequest, props: Params) {
+  const params = await props.params;
   try {
     const token = await getToken({ req: request });
 
@@ -46,7 +47,8 @@ export async function GET(request: NextRequest, { params }: Params) {
 }
 
 // PATCH - Update a blog post (admin only)
-export async function PATCH(request: NextRequest, { params }: Params) {
+export async function PATCH(request: NextRequest, props: Params) {
+  const params = await props.params;
   try {
     const token = await getToken({ req: request });
 
@@ -109,7 +111,8 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 }
 
 // DELETE - Delete a blog post (admin only)
-export async function DELETE(request: NextRequest, { params }: Params) {
+export async function DELETE(request: NextRequest, props: Params) {
+  const params = await props.params;
   try {
     const token = await getToken({ req: request });
 
