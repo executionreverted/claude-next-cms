@@ -37,7 +37,13 @@ export default function AdminDashboard() {
           </p>
           <div className="mt-4 text-blue-600">Manage Blogs →</div>
         </Link>
-
+        <Link href="/admin/site-settings" className="rounded-lg bg-white p-6 shadow-md hover:shadow-lg transition-shadow">
+          <h2 className="mb-4 text-lg font-medium text-gray-900">Site Settings</h2>
+          <p className="text-gray-600">
+            Customize logo and application appearance
+          </p>
+          <div className="mt-4 text-blue-600">Manage Settings →</div>
+        </Link>
         <div className="rounded-lg bg-white p-6 shadow-md">
           <h2 className="mb-4 text-lg font-medium text-gray-900">System Status</h2>
           <p className="text-gray-600">

@@ -10,10 +10,13 @@ export async function middleware(request: NextRequest) {
 
   // Public routes - always accessible
   const publicRoutes = ['/', '/login', '/register', '/blogs'];
+
+  // Public API routes
   if (publicRoutes.includes(pathname) ||
     pathname.startsWith('/api/auth') ||
     pathname.startsWith('/api/blogs') ||
-    pathname.startsWith('/blogs/')) {
+    pathname.startsWith('/blogs/') ||
+    pathname === '/api/logo-image') {
     return NextResponse.next();
   }
 
@@ -25,7 +28,9 @@ export async function middleware(request: NextRequest) {
   }
 
   // Admin route protection
-  if (pathname.startsWith('/admin') && token.role !== 'ADMIN') {
+  if ((pathname.startsWith('/admin') ||
+    pathname.startsWith('/api/admin')) &&
+    token.role !== 'ADMIN') {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 

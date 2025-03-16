@@ -1,14 +1,44 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useSession, signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
+
+interface SiteSettings {
+  logoText: string;
+  hasLogo: boolean;
+}
 
 export default function Navbar() {
   const { data: session, status } = useSession();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [siteSettings, setSiteSettings] = useState<SiteSettings>({
+    logoText: 'MyApp',
+    hasLogo: false
+  });
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchSiteSettings() {
+      try {
+        setIsLoading(true);
+        const response = await fetch('/api/admin/site-settings');
+        if (response.ok) {
+          const data = await response.json();
+          setSiteSettings(data);
+        }
+      } catch (error) {
+        console.error('Error fetching site settings:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchSiteSettings();
+  }, []);
 
   const isActive = (path: string) => {
     return pathname === path ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600';
@@ -19,8 +49,27 @@ export default function Navbar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 justify-between">
           <div className="flex">
-            <div className="flex flex-shrink-0 items-center">
-              <Link href="/" className="font-bold text-xl text-blue-600">MyApp</Link>
+            <div className="flex flex-shrink-0 items-center px-2">
+              <Link href="/" className="font-bold text-xl text-blue-600">
+                {isLoading ? (
+                  <div className="h-5 w-20 animate-pulse bg-gray-200 rounded"></div>
+                ) : siteSettings.hasLogo ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <Image
+                      src="/api/logo-image"
+                      alt={siteSettings.logoText}
+                      width={40}
+                      height={40}
+                      className="object-contain"
+                    />
+                    <p className='ml-2'>
+                      {siteSettings.logoText}
+                    </p>
+                  </div>
+                ) : (
+                  siteSettings.logoText
+                )}
+              </Link>
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
               <Link href="/" className={`inline-flex items-center border-b-2 ${pathname === '/' ? 'border-blue-500' : 'border-transparent'} px-1 pt-1 text-sm font-medium ${isActive('/')}`}>

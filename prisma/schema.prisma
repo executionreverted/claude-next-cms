@@ -56,3 +56,12 @@ model Post {
   authorId    String
   author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
+
+model SiteSettings {
+  id           String   @id @default("site-settings") // Single record
+  logoText     String   @default("MyApp")
+  logoImage    Bytes?   // Storing image directly in PostgreSQL as binary data
+  logoMimeType String?  // Store MIME type for proper content-type headers
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
