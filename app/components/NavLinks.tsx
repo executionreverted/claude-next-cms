@@ -79,9 +79,14 @@ export default function Navbar() {
                 Blog
               </Link>
               {session && (
-                <Link href="/dashboard" className={`inline-flex items-center border-b-2 ${pathname === '/dashboard' ? 'border-blue-500' : 'border-transparent'} px-1 pt-1 text-sm font-medium ${isActive('/dashboard')}`}>
-                  Dashboard
-                </Link>
+                <>
+                  <Link href="/dashboard" className={`inline-flex items-center border-b-2 ${pathname === '/dashboard' ? 'border-blue-500' : 'border-transparent'} px-1 pt-1 text-sm font-medium ${isActive('/dashboard')}`}>
+                    Dashboard
+                  </Link>
+                  <Link href="/dashboard/profile" className={`inline-flex items-center border-b-2 ${pathname === '/dashboard/profile' ? 'border-blue-500' : 'border-transparent'} px-1 pt-1 text-sm font-medium ${isActive('/dashboard/profile')}`}>
+                    Profile
+                  </Link>
+                </>
               )}
               {session?.user?.role === 'ADMIN' && (
                 <Link href="/admin" className={`inline-flex items-center border-b-2 ${pathname.startsWith('/admin') ? 'border-blue-500' : 'border-transparent'} px-1 pt-1 text-sm font-medium ${isActive('/admin')}`}>
@@ -162,14 +167,24 @@ export default function Navbar() {
             Blog
           </Link>
           {session && (
-            <Link
-              href="/dashboard"
-              className={`block rounded-md px-3 py-2 text-base font-medium ${pathname === '/dashboard' ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
-                }`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Dashboard
-            </Link>
+            <>
+              <Link
+                href="/dashboard"
+                className={`block rounded-md px-3 py-2 text-base font-medium ${pathname === '/dashboard' ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
+                  }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Dashboard
+              </Link>
+              <Link
+                href="/dashboard/profile"
+                className={`block rounded-md px-3 py-2 text-base font-medium ${pathname === '/dashboard/profile' ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
+                  }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Profile
+              </Link>
+            </>
           )}
           {session?.user?.role === 'ADMIN' && (
             <Link

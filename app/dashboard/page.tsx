@@ -38,6 +38,11 @@ export default function DashboardPage() {
             <p className="text-gray-600">
               <strong>Role:</strong> {session?.user?.role}
             </p>
+            <p className="mt-2">
+              <a href="/dashboard/profile" className="text-blue-600 hover:underline">
+                Edit Profile
+              </a>
+            </p>
             {session?.user?.role === 'ADMIN' && (
               <p className="mt-2">
                 <a href="/admin" className="text-blue-600 hover:underline">

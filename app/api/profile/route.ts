@@ -37,7 +37,27 @@ export async function PATCH(request: Request) {
     }
 
     const body = await request.json();
-    const { name, bio } = body;
+    const { 
+      name,
+      bio, 
+      location, 
+      jobTitle, 
+      company, 
+      website, 
+      twitterHandle, 
+      githubHandle, 
+      linkedinHandle,
+      avatarUrl
+    } = body;
+
+    // Create profile if it doesn't exist
+    if (!currentUser.profile) {
+      await prisma.profile.create({
+        data: {
+          userId: currentUser.id,
+        },
+      });
+    }
 
     const updatedUser = await prisma.user.update({
       where: {
@@ -47,7 +67,15 @@ export async function PATCH(request: Request) {
         name: name ?? currentUser.name,
         profile: {
           update: {
-            bio: bio ?? currentUser.profile?.bio,
+            bio: bio !== undefined ? bio : currentUser.profile?.bio,
+            location: location !== undefined ? location : currentUser.profile?.location,
+            jobTitle: jobTitle !== undefined ? jobTitle : currentUser.profile?.jobTitle,
+            company: company !== undefined ? company : currentUser.profile?.company,
+            website: website !== undefined ? website : currentUser.profile?.website,
+            twitterHandle: twitterHandle !== undefined ? twitterHandle : currentUser.profile?.twitterHandle,
+            githubHandle: githubHandle !== undefined ? githubHandle : currentUser.profile?.githubHandle,
+            linkedinHandle: linkedinHandle !== undefined ? linkedinHandle : currentUser.profile?.linkedinHandle,
+            avatarUrl: avatarUrl !== undefined ? avatarUrl : currentUser.profile?.avatarUrl,
           },
         },
       },
